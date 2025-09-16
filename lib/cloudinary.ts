@@ -8,12 +8,7 @@ const config = {
 	secure: true,
 };
 
-console.log("Cloudinary config:", {
-	cloud_name: config.cloud_name,
-	api_key: config.api_key ? "***" : "missing",
-	api_secret: config.api_secret ? "***" : "missing",
-	api_secret_length: config.api_secret?.length
-});
+// Debug logging removed for production
 
 cloudinary.config(config);
 

@@ -6,7 +6,7 @@ import { verifyToken } from "@/lib/auth";
 
 export async function PATCH(
 	request: NextRequest,
-	{ params }: { params: { id: string } }
+	{ params }: { params: Promise<{ id: string }> }
 ) {
 	try {
 		// Verify authentication
@@ -28,6 +28,9 @@ export async function PATCH(
 			return NextResponse.json({ error: "Access denied" }, { status: 403 });
 		}
 
+		// Get params
+		const { id } = await params;
+
 		// Parse request body
 		const body = await request.json();
 		const { status, remarks } = body as { status: "approved" | "rejected"; remarks?: string };
@@ -38,7 +41,7 @@ export async function PATCH(
 
 		// Update POD
 		const pod = await POD.findByIdAndUpdate(
-			params.id,
+			id,
 			{ 
 				status, 
 				remarks: remarks || "",
